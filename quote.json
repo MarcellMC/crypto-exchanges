@@ -1,0 +1,135 @@
+{
+    "table": "quote",
+    "action": "partial",
+    "keys": [],
+    "types": {
+        "timestamp": "timestamp",
+        "symbol": "symbol",
+        "bidSize": "long",
+        "bidPrice": "float",
+        "askPrice": "float",
+        "askSize": "long"
+    },
+    "foreignKeys": {
+        "symbol": "instrument"
+    },
+    "attributes": {
+        "timestamp": "sorted",
+        "symbol": "grouped"
+    },
+    "filter": {},
+    "data": [
+        {
+            "timestamp": "2020-07-15T18:48:53.697Z",
+            "symbol": "ADAU20",
+            "bidSize": 136905,
+            "bidPrice": 1.338e-05,
+            "askPrice": 1.339e-05,
+            "askSize": 978823
+        },
+        {
+            "timestamp": "2020-07-15T18:48:52.244Z",
+            "symbol": "BCHU20",
+            "bidSize": 87,
+            "bidPrice": 0.0247,
+            "askPrice": 0.02471,
+            "askSize": 44
+        },
+        {
+            "timestamp": "2020-07-15T18:48:53.645Z",
+            "symbol": "BCHUSD",
+            "bidSize": 210,
+            "bidPrice": 227.05,
+            "askPrice": 227.1,
+            "askSize": 1433
+        },
+        {
+            "timestamp": "2020-07-15T18:48:51.071Z",
+            "symbol": "EOSU20",
+            "bidSize": 25972,
+            "bidPrice": 0.0002709,
+            "askPrice": 0.000271,
+            "askSize": 5480
+        },
+        {
+            "timestamp": "2020-07-15T18:48:52.945Z",
+            "symbol": "ETHU20",
+            "bidSize": 165,
+            "bidPrice": 0.02611,
+            "askPrice": 0.02612,
+            "askSize": 939
+        },
+        {
+            "timestamp": "2020-07-15T18:48:53.328Z",
+            "symbol": "ETHUSD",
+            "bidSize": 17863,
+            "bidPrice": 237.8,
+            "askPrice": 237.85,
+            "askSize": 123811
+        },
+        {
+            "timestamp": "2020-07-15T18:48:53.608Z",
+            "symbol": "ETHUSDU20",
+            "bidSize": 7336,
+            "bidPrice": 256.25,
+            "askPrice": 256.3,
+            "askSize": 29980
+        },
+        {
+            "timestamp": "2020-07-15T18:48:39.399Z",
+            "symbol": "LTCU20",
+            "bidSize": 2181,
+            "bidPrice": 0.00463,
+            "askPrice": 0.004635,
+            "askSize": 1347
+        },
+        {
+            "timestamp": "2020-07-15T18:48:52.055Z",
+            "symbol": "TRXU20",
+            "bidSize": 5398892,
+            "bidPrice": 1.9e-06,
+            "askPrice": 1.91e-06,
+            "askSize": 1140438
+        },
+        {
+            "timestamp": "2020-07-15T18:48:52.980Z",
+            "symbol": "XBTU20",
+            "bidSize": 68323,
+            "bidPrice": 9292,
+            "askPrice": 9292.5,
+            "askSize": 206664
+        },
+        {
+            "timestamp": "2020-07-15T18:48:53.721Z",
+            "symbol": "XBTUSD",
+            "bidSize": 1413791,
+            "bidPrice": 9198,
+            "askPrice": 9198.5,
+            "askSize": 1631092
+        },
+        {
+            "timestamp": "2020-07-15T18:48:52.751Z",
+            "symbol": "XBTZ20",
+            "bidSize": 24384,
+            "bidPrice": 9390,
+            "askPrice": 9390.5,
+            "askSize": 33408
+        },
+        {
+            "timestamp": "2020-07-15T18:48:30.512Z",
+            "symbol": "XRPU20",
+            "bidSize": 359934,
+            "bidPrice": 2.101e-05,
+            "askPrice": 2.102e-05,
+            "askSize": 45528
+        },
+        {
+            "timestamp": "2020-07-15T18:48:52.137Z",
+            "symbol": "XRPUSD",
+            "bidSize": 7551,
+            "bidPrice": 0.1977,
+            "askPrice": 0.1978,
+            "askSize": 119861
+        }
+    ]
+}
