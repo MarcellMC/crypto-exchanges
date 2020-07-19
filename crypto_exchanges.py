@@ -11,6 +11,8 @@ class ExchangeAbstract():
     URI: str = 'URI for WebSocket API'
     SUBSCRIBTION: str = 'Subscription command'
 
+    MAX_STORE_SIZE: int = 7500
+
     data_store: dict = {}
 
     def __init__(self):
@@ -33,10 +35,11 @@ class ExchangeAbstract():
 
     async def process(self, message: str):
         """ Processes message recieved from WebSocket """
-        pass
+        if len(self.data_store) > self.MAX_STORE_SIZE:
+            self.data_store = dict(self.data_store.items()[:(self.MAX_STORE_SIZE // 2)])
 
     def _mid_price_1h(self, timestamp: int):
-        timestamp_1h = timestamp - 60
+        timestamp_1h = timestamp - 3600
         if timestamp_1h in self.data_store:
             record = ExchangeAbstract.data_store[timestamp_1h]
             ask_price, bid_price = record['ask_price'], record['bid_price']
@@ -72,6 +75,7 @@ class BitMEX(ExchangeAbstract):
                     for key, value in self.data_store[timestamp].items():
                         output.append(str(value))
                     print(output)
+                    super()
         except KeyError:
             pass
 
@@ -85,15 +89,18 @@ class BitMEX(ExchangeAbstract):
 class Binance(ExchangeAbstract):
 
     NAME = 'Binance'
-    URI = 'wss://fstream.binance.com/ws/btcusdt@bookTicker'
+    URI = 'wss://fstream.binance.com/stream?streams=btcusdt@bookTicker/btcusdt@aggTrade'
     SUBSCRIBTION = None
 
     async def process(self, message):
         """ Processes message recieved from WebSocket """
         try:
-            order_book = json.loads(message)
+            message_json = json.loads(message)
+            stream = message_json['stream']
+            order_book = message_json['data']
             timestamp = int(order_book['T']/1000)
-            if timestamp > self.timestamp_tracker:
+            if (timestamp > self.timestamp_tracker) and \
+                    (stream == 'btcusdt@bookTicker'):
                 self.timestamp_tracker = timestamp
                 self.data_store[timestamp] = {'exchange': self.NAME, 'ticker': order_book['s'],
                                               'bid_price': float(order_book['b']),
@@ -101,10 +108,20 @@ class Binance(ExchangeAbstract):
                                               'ask_price': float(order_book['a']),
                                               'ask_size': float(order_book['A']),
                                               'mid_price_1h': self._mid_price_1h(timestamp)}
-                output = [str(timestamp)]
-                for key, value in self.data_store[timestamp].items():
+                output = [str(timestamp - 1)]
+                for key, value in self.data_store[timestamp - 1].items():
                     output.append(str(value))
                 print(output)
+                super()
+            elif (stream == 'btcusdt@aggTrade') and \
+                    (timestamp in self.data_store):
+                self.timestamp_tracker = timestamp
+                self.data_store[timestamp]['trade_price'] = float(
+                    order_book['p'])
+                self.data_store[timestamp]['trade_quantity'] = float(
+                    order_book['q'])
+                self.data_store[timestamp]['is_market_maker?'] = str(
+                    order_book['m'])
         except KeyError:
             pass
 
@@ -132,7 +149,7 @@ class WebSocketReader():
 
 def main():
     wsr = WebSocketReader([BitMEX(), Binance()])
-    print('# timestamp, exchange, market, bid_price, bid_size, ask_price, ask_size')
+    print('# timestamp, exchange, market, bid_price, bid_size, ask_price, ask_size, trade_price, trade_quantity, is_market_maker?')
     asyncio.run(wsr.run_feed())
 
 
